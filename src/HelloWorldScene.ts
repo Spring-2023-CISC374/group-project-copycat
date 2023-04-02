@@ -18,31 +18,35 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('sky', 'assets/sky.png')
+		this.load.image('sky', 'assets/newbackg.png')
 		this.load.image('ground', 'assets/platform.png')
+		this.load.image('block2', 'assets/block2.png')
 		this.load.image('star', 'assets/star.png')
 		this.load.image('bomb', 'assets/bomb.png')
-		this.load.spritesheet('dude', 'assets/dude.png', {
+		this.load.spritesheet('cat', 'assets/cat.png', {
 			frameWidth: 32, frameHeight: 48
 		})
 	}
 
 	create() {
+		//sets background image
 		this.add.image(400, 300, 'sky')
 
 		this.platforms = this.physics.add.staticGroup();
 
-		const ground = this.platforms.create(300, 568, 'ground') as Phaser.Physics.Arcade.Sprite
-		
+		//floor of game
+		const ground = this.platforms.create(400, 568, 'ground') as Phaser.Physics.Arcade.Sprite
 		ground
 			.setScale(2)
 			.refreshBody()
 		
-		this.platforms.create(600, 400, 'ground')
-		this.platforms.create(50, 250, 'ground')
-		this.platforms.create(750, 220, 'ground')
+		const block2 = this.platforms.create(700, 390, 'block2') as Phaser.Physics.Arcade.Sprite
+		 
+		block2
+			.setScale(2)
+			.refreshBody()
 
-		this.player = this.physics.add.sprite(100, 450, 'dude')
+		this.player = this.physics.add.sprite(300, 300, 'cat')
 		this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
 
@@ -51,7 +55,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 		this.anims.create({
 			key: 'left',
-			frames: this.anims.generateFrameNumbers('dude', {
+			frames: this.anims.generateFrameNumbers('cat', {
 				start:0, end: 3 }),
 			frameRate: 10,
 			repeat: -1
@@ -59,13 +63,13 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 		this.anims.create({
 			key: 'turn',
-			frames: [{key: 'dude', frame: 4}],
+			frames: [{key: 'cat', frame: 4}],
 			frameRate: 20
 		})
 
 		this.anims.create({
 			key: 'right',
-			frames: this.anims.generateFrameNumbers('dude', {
+			frames: this.anims.generateFrameNumbers('cat', {
 				start: 5, end:0 
 			}),
 			frameRate: 10,
