@@ -29,6 +29,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.load.image('barn', 'assets/barn-resize.png')
 		this.load.image('house3', 'assets/house3-resize.png')
 		this.load.image('hay', 'assets/bale-resize.png')
+		this.load.image('main','assets/copy-cat.png' )
 		this.load.spritesheet('cat', 'assets/cat-resize.png', {
 
 			frameWidth: 32, frameHeight: 48
@@ -42,12 +43,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 		this.house = this.physics.add.staticGroup();
 
-		//floor of game
-		const ground = this.platforms.create(400, 568, 'ground') as Phaser.Physics.Arcade.Sprite
-		ground
-			.setScale(2)
-			.refreshBody()
-		
 		const block2 = this.platforms.create(700, 520, 'hay') as Phaser.Physics.Arcade.Sprite
 		block2
 			.setScale(2)
