@@ -4,12 +4,14 @@ export default class HelloWorldScene extends Phaser.Scene {
 	private platforms?: Phaser.Physics.Arcade.StaticGroup
 	private player?: Phaser.Physics.Arcade.Sprite
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
-	private stars?: Phaser.Physics.Arcade.Group
+	//private stars?: Phaser.Physics.Arcade.Group
 
 	private score = 0
 	private scoreText?: Phaser.GameObjects.Text
 
 	private bombs?: Phaser.Physics.Arcade.Group
+
+	private house?: Phaser.Physics.Arcade.StaticGroup
 
 	private gameOver = false
 
@@ -18,6 +20,15 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	preload() {
+  
+		this.load.image('sky', 'assets/newbackg.png')
+		this.load.image('ground', 'assets/platform.png')
+		this.load.image('block2', 'assets/block2.png')
+		//this.load.image('star', 'assets/star.png')
+		this.load.image('bomb', 'assets/bomb.png')
+		this.load.image('house', 'assets/house-pixelated.png')
+		this.load.spritesheet('cat', 'assets/cat.png', {
+
 		this.load.image('scene1', 'assets/scene1-resize.jpeg')
 		this.load.image('scene2', 'assets/scene2-resize.png')
 		this.load.image('star', 'assets/star.png')
@@ -27,6 +38,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.load.image('house3', 'assets/house3-resize.png')
 		this.load.image('hay', 'assets/bale-resize.png')
 		this.load.spritesheet('cat', 'assets/cat-resize.png', {
+
 			frameWidth: 32, frameHeight: 48
 		})
 	}
@@ -35,12 +47,25 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.add.image(400, 300, 'scene1')
 
 		this.platforms = this.physics.add.staticGroup();
-	
+
+		this.house = this.physics.add.staticGroup();
+
+		//floor of game
+		const ground = this.platforms.create(400, 568, 'ground') as Phaser.Physics.Arcade.Sprite
+		ground
+			.setScale(2)
+			.refreshBody()
 		
-		this.platforms.create(600, 400, 'hay')
-		this.platforms.create(50, 250, 'hay')
-		this.platforms.create(750, 220, 'hay')
-		this.platforms.create(700, 500, 'barn')
+		const block2 = this.platforms.create(700, 520, 'block2') as Phaser.Physics.Arcade.Sprite
+		block2
+			.setScale(2)
+			.refreshBody()
+		
+		const house = this.house.create(730, 320, 'house') as Phaser.Physics.Arcade.Sprite
+		house
+			.setScale(0.5)
+			.refreshBody()
+
 
 		this.player = this.physics.add.sprite(100, 450, 'cat')
 		this.player.setBounce(0.2)
@@ -48,12 +73,39 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 
 		this.physics.add.collider(this.player, this.platforms)
+
+		this.physics.add.collider(this.player, this.house, this.reachHome, undefined, this)
+
 		this.cursors = this.input.keyboard.createCursorKeys()
 
+		
 		this.scoreText = this.add.text(16,16,'score: 0', {
 			fontSize: '32px',
 		})
+
+
+		this.bombs = this.physics.add.group()
+
+		this.physics.add.collider(this.bombs, this.platforms)
+		this.physics.add.collider(this.bombs, this.player, this.handleHitBomb, undefined, this)
+
 	}
+
+	
+	private handleHitBomb(player: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject){
+		this.physics.pause()
+		this.player?.setTint(0xff0000)
+		this.player?.anims.play('turn')
+		this.gameOver = true
+	}
+
+	private reachHome (player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject){
+		this.score += 10
+		this.scoreText?.setText(`Score: ${this.score}`)
+		this.physics.pause()
+	}
+
+
 
 	update(){
 		if (!this.cursors){
