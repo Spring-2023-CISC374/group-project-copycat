@@ -20,6 +20,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	preload() {
+  
 		this.load.image('sky', 'assets/newbackg.png')
 		this.load.image('ground', 'assets/platform.png')
 		this.load.image('block2', 'assets/block2.png')
@@ -27,13 +28,23 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.load.image('bomb', 'assets/bomb.png')
 		this.load.image('house', 'assets/house-pixelated.png')
 		this.load.spritesheet('cat', 'assets/cat.png', {
+
+		this.load.image('scene1', 'assets/scene1-resize.jpeg')
+		this.load.image('scene2', 'assets/scene2-resize.png')
+		this.load.image('star', 'assets/star.png')
+		this.load.image('scene3', 'assets/scene3-resize.png')
+		this.load.image('house2', 'assets/house2-resize.png')
+		this.load.image('barn', 'assets/barn-resize.png')
+		this.load.image('house3', 'assets/house3-resize.png')
+		this.load.image('hay', 'assets/bale-resize.png')
+		this.load.spritesheet('cat', 'assets/cat-resize.png', {
+
 			frameWidth: 32, frameHeight: 48
 		})
 	}
 
 	create() {
-		//sets background image
-		this.add.image(400, 300, 'sky')
+		this.add.image(400, 300, 'scene1')
 
 		this.platforms = this.physics.add.staticGroup();
 
@@ -56,33 +67,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 			.refreshBody()
 
 
-		this.player = this.physics.add.sprite(300, 300, 'cat')
+		this.player = this.physics.add.sprite(100, 450, 'cat')
 		this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
-
-
-		this.anims.create({
-			key: 'left',
-			frames: this.anims.generateFrameNumbers('cat', {
-				start:0, end: 3 }),
-			frameRate: 10,
-			repeat: -1
-		})
-
-		this.anims.create({
-			key: 'turn',
-			frames: [{key: 'cat', frame: 4}],
-			frameRate: 20
-		})
-
-		this.anims.create({
-			key: 'right',
-			frames: this.anims.generateFrameNumbers('cat', {
-				start: 5, end:0 
-			}),
-			frameRate: 10,
-			repeat: -1
-		})
 
 
 		this.physics.add.collider(this.player, this.platforms)
@@ -90,21 +77,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.physics.add.collider(this.player, this.house, this.reachHome, undefined, this)
 
 		this.cursors = this.input.keyboard.createCursorKeys()
-		/**
-		this.stars = this.physics.add.group({
-			key: 'star',
-			repeat: 11,
-			setXY: {x: 12, y: 0, stepX: 70}
-		})
 
-		this.stars.children.iterate(c => {
-			const child = c as Phaser.Physics.Arcade.Image
-			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
-		})
-		*/
-
-		//this.physics.add.collider(this.stars, this.platforms)
-		//this.physics.add.overlap(this.player, this.stars, this.handleCollectStar, undefined, this)
 		
 		this.scoreText = this.add.text(16,16,'score: 0', {
 			fontSize: '32px',
@@ -133,33 +106,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 
-	/** 
-	private handleCollectStar(player: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject){
-		const star = s as Phaser.Physics.Arcade.Image
-		star.disableBody(true,true)
-
-		this.score += 10
-		this.scoreText?.setText(`Score: ${this.score}`)
-
-		if (this.stars?.countActive(true) === 0){
-			this.stars.children.iterate(c => {
-				const child = c as Phaser.Physics.Arcade.Image
-				child.enableBody(true,child.x, 0, true, true)
-			})
-			
-			if (this.player){
-				const x = this.player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0,400)
-
-				const bomb: Phaser.Physics.Arcade.Image = this.bombs?.create(x,16,'bomb')
-				bomb.setBounce(1)
-				bomb.setCollideWorldBounds(true)
-				bomb.setVelocity(Phaser.Math.Between(-200, 200), 20)
-			}
-
-		}
-
-	}
-	*/
 
 	update(){
 		if (!this.cursors){
