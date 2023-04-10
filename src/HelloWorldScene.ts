@@ -20,15 +20,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	preload() {
-  
-		this.load.image('sky', 'assets/newbackg.png')
-		this.load.image('ground', 'assets/platform.png')
-		this.load.image('block2', 'assets/block2.png')
-		//this.load.image('star', 'assets/star.png')
-		this.load.image('bomb', 'assets/bomb.png')
-		this.load.image('house', 'assets/house-pixelated.png')
-		this.load.spritesheet('cat', 'assets/cat.png', {
-
+  		this.load.image('ground', 'assets/platform.png')
 		this.load.image('scene1', 'assets/scene1-resize.jpeg')
 		this.load.image('scene2', 'assets/scene2-resize.png')
 		this.load.image('star', 'assets/star.png')
@@ -56,14 +48,13 @@ export default class HelloWorldScene extends Phaser.Scene {
 			.setScale(2)
 			.refreshBody()
 		
-		const block2 = this.platforms.create(700, 520, 'block2') as Phaser.Physics.Arcade.Sprite
+		const block2 = this.platforms.create(700, 520, 'hay') as Phaser.Physics.Arcade.Sprite
 		block2
 			.setScale(2)
 			.refreshBody()
 		
-		const house = this.house.create(730, 320, 'house') as Phaser.Physics.Arcade.Sprite
+		const house = this.house.create(730, 320, 'barn') as Phaser.Physics.Arcade.Sprite
 		house
-			.setScale(0.5)
 			.refreshBody()
 
 
@@ -83,22 +74,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 			fontSize: '32px',
 		})
 
-
-		this.bombs = this.physics.add.group()
-
-		this.physics.add.collider(this.bombs, this.platforms)
-		this.physics.add.collider(this.bombs, this.player, this.handleHitBomb, undefined, this)
-
 	}
 
 	
-	private handleHitBomb(player: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject){
-		this.physics.pause()
-		this.player?.setTint(0xff0000)
-		this.player?.anims.play('turn')
-		this.gameOver = true
-	}
-
 	private reachHome (player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject){
 		this.score += 10
 		this.scoreText?.setText(`Score: ${this.score}`)
