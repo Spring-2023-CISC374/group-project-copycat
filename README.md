@@ -10,4 +10,4 @@ This game is called Copy Cat. The goal is to have a better understanding of shal
 ## **Mechanics Implemented**
 - Rosey: Copying Ability & Block Manipulation
 - Joy: Create Level
-- Faith: Asset collection & animations
+- Faith: Asset collection & animations, scenes and transitions
