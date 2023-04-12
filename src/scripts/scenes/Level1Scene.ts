@@ -1,4 +1,4 @@
-import { GameObjects } from "phaser"
+import { Physics } from "phaser"
 
 export default class MainMenu extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
@@ -61,23 +61,31 @@ export default class MainMenu extends Phaser.Scene {
         this.physics.pause()
     }
 
-    private platformClick(platform: Phaser.GameObjects.GameObject){
+    private platformClick(platform: Phaser.Physics.Arcade.Sprite){
        const deep = this.buttons?.create(300, 520, 'deep') as Phaser.Physics.Arcade.Sprite
        deep.setInteractive({ useHandCursor: true })
-            .on('pointerdown', () => this.deepCopy(platform))
+            .on('pointerdown', () => this.deepCopyBtn(platform))
        const shallow = this.buttons?.create(500, 520, 'shallow') as Phaser.Physics.Arcade.Sprite
        shallow.setInteractive({ useHandCursor: true })
-            .on('pointerdown', () => this.shallowCopy(platform))
+            .on('pointerdown', () => this.shallowCopyBtn(platform))
     }
 
-    private shallowCopy(platform: Phaser.GameObjects.GameObject){
+    private shallowCopyBtn(platform: Physics.Arcade.Sprite){
         console.log("shallow")
-        this.buttons?.toggleVisible()
+        this.buttons?.setVisible(false)
+        const shallowCopy = this.platforms?.create(platform.x -75, platform.y, 'hay') as Phaser.Physics.Arcade.Sprite
+        shallowCopy
+            .setScale(2)
+            .refreshBody()
     }
 
-    private deepCopy(platform: Phaser.GameObjects.GameObject){
+    private deepCopyBtn(platform: Physics.Arcade.Sprite){
         console.log("deep")
-        this.buttons?.toggleVisible()
+        this.buttons?.setVisible(false)
+        const deepCopy = this.platforms?.create(platform.x - 75, platform.y, 'hay') as Phaser.Physics.Arcade.Sprite
+        deepCopy
+            .setScale(2)
+            .refreshBody()
     }
 
     update(){
@@ -99,7 +107,7 @@ export default class MainMenu extends Phaser.Scene {
         }
         if(this.spaceBtn?.isDown){
             console.log("space bar hit")
-            this.player?.setVelocityY(900)
+            this.player?.setVelocityY(1000)
         }
     }
     
