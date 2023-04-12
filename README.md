@@ -8,7 +8,6 @@ This game is called Copy Cat. The goal is to have a better understanding of shal
 ---
 
 ## **Mechanics Implemented**
-- Rosey: Cat sprite & start button (on start, walk towards house, jumping if necessary)
+- Rosey: Copying Ability & Block Manipulation
 - Joy: Create Level
 - Faith: Asset collection & animations
-- Meghana: Block Sprite, copy ability, manipulate size
