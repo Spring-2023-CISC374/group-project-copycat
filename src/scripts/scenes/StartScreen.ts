@@ -1,6 +1,6 @@
 import {TextButtonObject} from "../objects/TextButtonObject";
 
-export default class MainMenu extends Phaser.Scene {
+export default class StartScreen extends Phaser.Scene {
     constructor() {
         super({ key: 'StartScreen' });
         console.log("in main - constructor");
@@ -9,6 +9,12 @@ export default class MainMenu extends Phaser.Scene {
     
     create() {
         this.add.image(400, 300, 'main');
+
+        this.add.existing(new TextButtonObject(this, 650, 50, 
+            "Instructions", () => {
+                // starts up the tutorial scene when clicked
+                this.scene.start('Instructions');
+            }))
 
         this.add.existing(new TextButtonObject(this, 700, 200, 
         "Level 1", () => {
