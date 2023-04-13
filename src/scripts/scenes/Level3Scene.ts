@@ -75,19 +75,66 @@ export default class Level3 extends Phaser.Scene {
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
         this.buttons?.setVisible(false)
+        var draggable = false;
         const shallowCopy = this.platforms?.create(platform.x - 75, platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
         shallowCopy
             .setScale(2)
             .refreshBody()
+            .setInteractive()
+        this.input.on('pointerdown', () => {
+            this.input.setDraggable(shallowCopy, true);
+            draggable = true;
+        })
+
+        // listen for pointer up event on the scene
+        this.input.on('pointerup', () => {
+            // stop dragging when the pointer is released
+            this.input.setDraggable(shallowCopy, false);
+            draggable = false;
+        });
+
+        // listen for pointer move event on the scene
+        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            // update sprite position while dragging
+            if (draggable) {
+                shallowCopy.x = pointer.worldX;
+                shallowCopy.y = pointer.worldY;
+                shallowCopy.body.updateFromGameObject();
+            }
+        });
     }
+
 
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("deep")
         this.buttons?.setVisible(false)
+        var draggable = false;
         const deepCopy = this.platforms?.create(platform.x - 75, platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
             .refreshBody()
+            .setInteractive()
+        this.input.on('pointerdown', () => {
+            this.input.setDraggable(deepCopy, true);
+            draggable = true;
+        })
+
+        // listen for pointer up event on the scene
+        this.input.on('pointerup', () => {
+            // stop dragging when the pointer is released
+            this.input.setDraggable(deepCopy, false);
+            draggable = false;
+        });
+
+        // listen for pointer move event on the scene
+        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            // update sprite position while dragging
+            if (draggable) {
+                deepCopy.x = pointer.worldX;
+                deepCopy.y = pointer.worldY;
+                deepCopy.body.updateFromGameObject();
+            }
+        });
     }
 
     update() {

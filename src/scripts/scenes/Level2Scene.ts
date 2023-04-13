@@ -22,9 +22,9 @@ export default class Level2 extends Phaser.Scene {
         this.platforms = this.physics.add.staticGroup();
 
         this.house = this.physics.add.staticGroup();
-        
+
         this.buttons = this.physics.add.staticGroup();
-        
+
         const block2 = this.platforms.create(700, 520, 'star') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
@@ -63,7 +63,7 @@ export default class Level2 extends Phaser.Scene {
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
         const deep = this.buttons?.create(300, 520, 'deep') as Phaser.Physics.Arcade.Sprite
-       deep.setInteractive({ useHandCursor: true })
+        deep.setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.deepCopyBtn(platform))
         const shallow = this.buttons?.create(500, 520, 'shallow') as Phaser.Physics.Arcade.Sprite
         shallow.setInteractive({ useHandCursor: true })
@@ -73,19 +73,66 @@ export default class Level2 extends Phaser.Scene {
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
         this.buttons?.setVisible(false)
+        var draggable = false;
         const shallowCopy = this.platforms?.create(platform.x - 75, platform.y, 'star') as Phaser.Physics.Arcade.Sprite
         shallowCopy
             .setScale(2)
             .refreshBody()
+            .setInteractive()
+        this.input.on('pointerdown', () => {
+            this.input.setDraggable(shallowCopy, true);
+            draggable = true;
+        })
+
+        // listen for pointer up event on the scene
+        this.input.on('pointerup', () => {
+            // stop dragging when the pointer is released
+            this.input.setDraggable(shallowCopy, false);
+            draggable = false;
+        });
+
+        // listen for pointer move event on the scene
+        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            // update sprite position while dragging
+            if (draggable) {
+                shallowCopy.x = pointer.worldX;
+                shallowCopy.y = pointer.worldY;
+                shallowCopy.body.updateFromGameObject();
+            }
+        });
     }
+
 
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("deep")
         this.buttons?.setVisible(false)
+        var draggable = false;
         const deepCopy = this.platforms?.create(platform.x - 75, platform.y, 'star') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
             .refreshBody()
+            .setInteractive()
+        this.input.on('pointerdown', () => {
+            this.input.setDraggable(deepCopy, true);
+            draggable = true;
+        })
+
+        // listen for pointer up event on the scene
+        this.input.on('pointerup', () => {
+            // stop dragging when the pointer is released
+            this.input.setDraggable(deepCopy, false);
+            draggable = false;
+        });
+
+        // listen for pointer move event on the scene
+        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            // update sprite position while dragging
+            if (draggable) {
+                deepCopy.x = pointer.worldX;
+                deepCopy.y = pointer.worldY;
+                deepCopy.body.updateFromGameObject();
+            }
+        });
     }
 
 
