@@ -27,7 +27,7 @@ export default class MainMenu extends Phaser.Scene {
 
         this.buttons = this.physics.add.staticGroup();
 
-        const block2 = this.platforms.create(700, 520, 'hay') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(550, 430, 'hay') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
             .refreshBody()
