@@ -58,7 +58,7 @@ export default class Level2 extends Phaser.Scene {
     private reachHome(player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject) {
         this.score += 10
         this.scoreText?.setText(`Score: ${this.score}`)
-        this.physics.pause()
+        this.scene.start("Level3");
     }
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
