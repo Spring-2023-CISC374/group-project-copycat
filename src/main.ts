@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './HelloWorldScene'
 import StartScreen from './scripts/scenes/StartScreen'
 import PreLoadScene from './scripts/scenes/PreLoadScene'
 import Level1 from './scripts/scenes/Level1Scene'

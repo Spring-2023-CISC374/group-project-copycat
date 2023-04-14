@@ -58,7 +58,7 @@ export default class Level3 extends Phaser.Scene {
 
     }
 
-    private reachHome(player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject) {
+    private reachHome() {
         this.score += 10
         this.scoreText?.setText(`Score: ${this.score}`)
         this.physics.pause()

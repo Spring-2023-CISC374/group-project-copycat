@@ -56,7 +56,7 @@ export default class MainMenu extends Phaser.Scene {
 
     }
 
-    private reachHome(player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject) {
+    private reachHome() {
         this.score += 10
         this.scoreText?.setText(`Score: ${this.score}`)
         this.scene.start("Level2");

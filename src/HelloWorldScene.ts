@@ -9,11 +9,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 	private score = 0
 	private scoreText?: Phaser.GameObjects.Text
 
-	private bombs?: Phaser.Physics.Arcade.Group
 
 	private house?: Phaser.Physics.Arcade.StaticGroup
 
-	private gameOver = false
 
 	constructor() {
 		super('hello-world')
@@ -74,7 +72,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	
-	private reachHome (player: Phaser.GameObjects.GameObject, h: Phaser.GameObjects.GameObject){
+	private reachHome (){
 		this.score += 10
 		this.scoreText?.setText(`Score: ${this.score}`)
 		this.physics.pause()
