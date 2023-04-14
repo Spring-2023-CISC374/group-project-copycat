@@ -10,6 +10,7 @@ export default class Level3 extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text
     private house?: Phaser.Physics.Arcade.StaticGroup
     private buttons?: Phaser.Physics.Arcade.StaticGroup
+    private hasCopied = false
 
     constructor() {
         super({ key: 'Level3' });
@@ -64,15 +65,19 @@ export default class Level3 extends Phaser.Scene {
     }
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
-        const deep = this.buttons?.create(300, 520, 'deep') as Phaser.Physics.Arcade.Sprite
-        deep.setInteractive({ useHandCursor: true })
-            .on('pointerdown', () => this.deepCopyBtn(platform))
-        const shallow = this.buttons?.create(500, 520, 'shallow') as Phaser.Physics.Arcade.Sprite
-        shallow.setInteractive({ useHandCursor: true })
-            .on('pointerdown', () => this.shallowCopyBtn(platform))
+        if (!this.hasCopied) {
+            const deep = this.buttons?.create(300, 520, 'deep') as Phaser.Physics.Arcade.Sprite
+            deep.setInteractive({ useHandCursor: true })
+                .on('pointerdown', () => this.deepCopyBtn(platform))
+            const shallow = this.buttons?.create(500, 520, 'shallow') as Phaser.Physics.Arcade.Sprite
+            shallow.setInteractive({ useHandCursor: true })
+                .on('pointerdown', () => this.shallowCopyBtn(platform))
+            this.hasCopied = true;
+        }
     }
 
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
+        var rescale = 2;
         console.log("shallow")
         this.buttons?.setVisible(false)
         var draggable = false;
@@ -81,9 +86,38 @@ export default class Level3 extends Phaser.Scene {
             .setScale(2)
             .refreshBody()
             .setInteractive()
-        this.input.on('pointerdown', () => {
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(shallowCopy, true);
             draggable = true;
+            if (pointer.rightButtonDown()) {
+                if (rescale == 2) {
+                    rescale = 3
+                    shallowCopy
+                        .setScale(3)
+                        .refreshBody()
+                    platform
+                        .setScale(3)
+                        .refreshBody()
+                }
+                else if (rescale == 3) {
+                    rescale = 4
+                    shallowCopy
+                        .setScale(4)
+                        .refreshBody()
+                    platform
+                        .setScale(4)
+                        .refreshBody()
+                }
+                else {
+                    rescale = 2
+                    shallowCopy
+                        .setScale(2)
+                        .refreshBody()
+                    platform
+                        .setScale(2)
+                        .refreshBody()
+                }
+            }
         })
 
         // listen for pointer up event on the scene
@@ -95,6 +129,7 @@ export default class Level3 extends Phaser.Scene {
 
         // listen for pointer move event on the scene
         this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+
             // update sprite position while dragging
             if (draggable) {
                 shallowCopy.x = pointer.worldX;
@@ -109,14 +144,35 @@ export default class Level3 extends Phaser.Scene {
         console.log("deep")
         this.buttons?.setVisible(false)
         var draggable = false;
+        var rescale = 2
         const deepCopy = this.platforms?.create(platform.x - 75, platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
-        this.input.on('pointerdown', () => {
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(deepCopy, true);
             draggable = true;
+            if (pointer.rightButtonDown()) {
+                if (rescale == 2) {
+                    rescale = 3
+                    deepCopy
+                        .setScale(3)
+                        .refreshBody()
+                }
+                else if (rescale == 3) {
+                    rescale = 4
+                    deepCopy
+                        .setScale(4)
+                        .refreshBody()
+                }
+                else {
+                    rescale = 2
+                    deepCopy
+                        .setScale(2)
+                        .refreshBody()
+                }
+            }
         })
 
         // listen for pointer up event on the scene
