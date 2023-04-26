@@ -19,6 +19,7 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.image('lily', 'assets/pad-resize.png')
         this.load.image('deep', 'assets/deepcopy-button.png')
         this.load.image('shallow', 'assets/shallowcopy-button.png')
+        this.load.image('cancel', 'assets/cancel-button.png')
         this.load.spritesheet('cat', 'assets/cat.png', {
 
             frameWidth: 32, frameHeight: 48
