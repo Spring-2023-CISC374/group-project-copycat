@@ -1,4 +1,5 @@
 import { Physics } from "phaser"
+import ImageButtonObject from "../objects/ImageButtonObject"
 
 export default class Level3 extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
@@ -23,6 +24,10 @@ export default class Level3 extends Phaser.Scene {
     create() {
 
         this.add.image(400, 300, 'scene3')
+
+        this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
+            this.scene.start("Level3");
+        }));
 
         this.platforms = this.physics.add.staticGroup();
 
