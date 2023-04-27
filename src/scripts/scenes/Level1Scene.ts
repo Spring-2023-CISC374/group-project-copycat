@@ -19,7 +19,8 @@ export default class MainMenu extends Phaser.Scene {
 
 
     create() {
-        this.add.image(400, 300, 'scene1')
+
+        this.add.image(400, 300, 'scene1');
 
         this.platforms = this.physics.add.staticGroup();
 

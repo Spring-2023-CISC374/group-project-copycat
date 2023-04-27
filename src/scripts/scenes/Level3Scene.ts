@@ -11,6 +11,7 @@ export default class Level3 extends Phaser.Scene {
     private house?: Phaser.Physics.Arcade.StaticGroup
     private buttons?: Phaser.Physics.Arcade.StaticGroup
     private hasCopied = false
+    private music?: Phaser.Sound.BaseSound
 
     constructor() {
         super({ key: 'Level3' });
@@ -20,6 +21,7 @@ export default class Level3 extends Phaser.Scene {
 
 
     create() {
+
         this.add.image(400, 300, 'scene3')
 
         this.platforms = this.physics.add.staticGroup();
