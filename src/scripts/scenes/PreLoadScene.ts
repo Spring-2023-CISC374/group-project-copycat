@@ -23,9 +23,7 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.image('lvl-1', 'assets/lvl-1.png')
         this.load.image('lvl-2', 'assets/lvl-2.png')
         this.load.image('lvl-3', 'assets/lvl-3.png')
-        this.load.audio("1-music", ["lvl-1-music.mp3"]);
-        this.load.audio("2-music", ["lvl-2-music.mp3"]);
-        this.load.audio("3-music", ["lvl-3-music.mp3"]);
+        this.load.image('reset-btn', 'assets/reset-btn.png')
         this.load.spritesheet('cat', 'assets/cat.png', {
 
             frameWidth: 32, frameHeight: 48
