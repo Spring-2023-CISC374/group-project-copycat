@@ -69,6 +69,9 @@ export default class Level3 extends Phaser.Scene {
         this.score += 10
         this.scoreText?.setText(`Score: ${this.score}`)
         this.physics.pause()
+        this.add.existing(new ImageButtonObject(this, 400, 300, "reset-btn", () => {
+            this.scene.start("StartScreen");
+        }));
     }
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
