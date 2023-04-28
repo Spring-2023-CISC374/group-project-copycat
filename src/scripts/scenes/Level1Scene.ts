@@ -5,7 +5,7 @@ export default class MainMenu extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
     private player?: Phaser.Physics.Arcade.Sprite
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
-    private spaceBtn?: Phaser.Input.Keyboard.Key
+    //private spaceBtn?: Phaser.Input.Keyboard.Key
     //private stars?: Phaser.Physics.Arcade.Group
     private score = 0
     private scoreText?: Phaser.GameObjects.Text
@@ -41,14 +41,14 @@ export default class MainMenu extends Phaser.Scene {
         this.buttons = this.physics.add.staticGroup();
 
         const block2 = this.platforms.create(550, 430, 'hay') as Phaser.Physics.Arcade.Sprite
-        var drag = false;
+        //var drag = false;
         block2
             .setScale(2)
             .refreshBody()
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))
         this.input.setDraggable(block2, true);
-        block2.on('drag', function (pointer: Phaser.Input.Pointer, dragX: int, dragY: int) {
+        block2.on('drag', function (/*pointer: Phaser.Input.Pointer,*/ dragX: number, dragY: number) {
             block2.setPosition(dragX, dragY);
             block2.body.updateFromGameObject();
         });
@@ -67,7 +67,7 @@ export default class MainMenu extends Phaser.Scene {
         this.physics.add.collider(this.player, this.house, this.reachHome, undefined, this)
 
         this.cursors = this.input.keyboard.createCursorKeys()
-        this.spaceBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //this.spaceBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.scoreText = this.add.text(16, 16, 'score: 0', {
             fontSize: '32px',
@@ -137,7 +137,7 @@ export default class MainMenu extends Phaser.Scene {
         })
         shallowCopy
             .setInteractive({ draggable: true })
-            .on('drag', function (pointer: Phaser.Input.Pointer, dragX: int, dragY: int) {
+            .on('drag', function (/*pointer: Phaser.Input.Pointer,*/ dragX: number, dragY: number) {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
             });
@@ -156,7 +156,7 @@ export default class MainMenu extends Phaser.Scene {
             .setScale(2)
             .refreshBody()
             .setInteractive()
-            .on('drag', function (pointer: Phaser.Input.Pointer, dragX: int, dragY: int) {
+            .on('drag', function (/*pointer: Phaser.Input.Pointer,*/ dragX: number, dragY: number) {
                 deepCopy.setPosition(dragX, dragY);
                 deepCopy.body.updateFromGameObject();
             });
