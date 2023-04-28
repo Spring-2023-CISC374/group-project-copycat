@@ -1,5 +1,5 @@
 import ImageButtonObject from "../objects/ImageButtonObject";
-import {TextButtonObject} from "../objects/TextButtonObject";
+//import {TextButtonObject} from "../objects/TextButtonObject";
 
 export default class StartScreen extends Phaser.Scene {
     constructor() {
