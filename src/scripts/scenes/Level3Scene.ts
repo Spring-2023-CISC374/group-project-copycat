@@ -1,4 +1,5 @@
 import { Physics } from "phaser"
+import ImageButtonObject from "../objects/ImageButtonObject"
 
 export default class Level3 extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
@@ -10,9 +11,12 @@ export default class Level3 extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text
     private house?: Phaser.Physics.Arcade.StaticGroup
     private buttons?: Phaser.Physics.Arcade.StaticGroup
+    
     private numCopies = 0;
     private maxCopies = 1;
     private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
+    private hasCopied = false
+    private music?: Phaser.Sound.BaseSound
 
     constructor() {
         super({ key: 'Level3' });
@@ -22,7 +26,12 @@ export default class Level3 extends Phaser.Scene {
 
 
     create() {
+
         this.add.image(400, 300, 'scene3')
+
+        this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
+            this.scene.start("Level3");
+        }));
 
         this.platforms = this.physics.add.staticGroup();
 
@@ -72,6 +81,9 @@ export default class Level3 extends Phaser.Scene {
         }
         this.scoreText?.setText(`Score: ${this.score}`)
         this.physics.pause()
+        this.add.existing(new ImageButtonObject(this, 400, 300, "reset-btn", () => {
+            this.scene.start("StartScreen");
+        }));
     }
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
