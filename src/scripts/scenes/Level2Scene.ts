@@ -1,4 +1,5 @@
 import { Physics } from "phaser"
+import ImageButtonObject from "../objects/ImageButtonObject"
 
 export default class Level2 extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
@@ -14,6 +15,9 @@ export default class Level2 extends Phaser.Scene {
     private maxCopies = 2;
     private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
 
+    private copiesLeft = 2;
+    private copiesText?: Phaser.GameObjects.Text
+
     constructor() {
         super({ key: 'Level2' });
         console.log("in main - constructor");
@@ -22,13 +26,19 @@ export default class Level2 extends Phaser.Scene {
     create() {
         this.add.image(400, 300, 'scene2')
 
+        this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
+            this.scene.start("Level2");
+            this.numCopies = 0;
+            this.copiesLeft = 2;
+        }));
+
         this.platforms = this.physics.add.staticGroup();
 
         this.house = this.physics.add.staticGroup();
 
         this.buttons = this.physics.add.staticGroup();
 
-        const block2 = this.platforms.create(700, 520, 'star') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(600, 450, 'star') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
             .refreshBody()
@@ -53,6 +63,10 @@ export default class Level2 extends Phaser.Scene {
         this.spaceBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.scoreText = this.add.text(16, 16, 'score: 0', {
+            fontSize: '32px',
+        })
+
+        this.copiesText = this.add.text(16, 48, 'copies: 2', {
             fontSize: '32px',
         })
 
@@ -99,6 +113,9 @@ export default class Level2 extends Phaser.Scene {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
             });
+
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
 
@@ -117,6 +134,9 @@ export default class Level2 extends Phaser.Scene {
                 deepCopy.body.updateFromGameObject();
             });
         this.input.setDraggable(deepCopy, true);
+        
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
 

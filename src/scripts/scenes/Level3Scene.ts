@@ -18,6 +18,9 @@ export default class Level3 extends Phaser.Scene {
     private hasCopied = false
     private music?: Phaser.Sound.BaseSound
 
+    private copiesLeft = 1;
+    private copiesText?: Phaser.GameObjects.Text
+
     constructor() {
         super({ key: 'Level3' });
         //console.log("in main - constructor");
@@ -31,6 +34,8 @@ export default class Level3 extends Phaser.Scene {
 
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level3");
+            this.numCopies = 0;
+            this.copiesLeft = 1;
         }));
 
         this.platforms = this.physics.add.staticGroup();
@@ -72,12 +77,17 @@ export default class Level3 extends Phaser.Scene {
             fontSize: '32px',
         })
 
+        this.copiesText = this.add.text(16, 48, 'copies: 1', {
+            fontSize: '32px',
+        })
+
     }
 
     private reachHome() {
         this.score += 10;
         if (this.maxCopies > 0) {
             this.score += (this.maxCopies - this.numCopies) * 5;
+            this.maxCopies = 0;
         }
         this.scoreText?.setText(`Score: ${this.score}`)
         this.physics.pause()
@@ -121,6 +131,9 @@ export default class Level3 extends Phaser.Scene {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
             });
+
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
@@ -137,6 +150,9 @@ export default class Level3 extends Phaser.Scene {
                 deepCopy.setPosition(dragX, dragY);
                 deepCopy.body.updateFromGameObject();
             });
+            
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
     update() {
