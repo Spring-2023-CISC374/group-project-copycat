@@ -14,6 +14,9 @@ export default class MainMenu extends Phaser.Scene {
     private maxCopies = 2
     private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
 
+    private copiesLeft = 2;
+    private copiesText?: Phaser.GameObjects.Text
+
     constructor() {
         super({ key: 'Level1' });
         console.log("in main - constructor");
@@ -27,6 +30,7 @@ export default class MainMenu extends Phaser.Scene {
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level1");
             this.numCopies = 0;
+            this.copiesLeft = 2;
             this.shallowCopies =[]
         }));
 
@@ -66,6 +70,11 @@ export default class MainMenu extends Phaser.Scene {
         this.scoreText = this.add.text(16, 16, 'score: 0', {
             fontSize: '32px',
         })
+
+        this.copiesText = this.add.text(16, 48, 'copies: 2', {
+            fontSize: '32px',
+        })
+
 
     }
 
@@ -130,6 +139,8 @@ export default class MainMenu extends Phaser.Scene {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
             });
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
 
@@ -170,6 +181,8 @@ export default class MainMenu extends Phaser.Scene {
                 }
             }
         })
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
     update() {

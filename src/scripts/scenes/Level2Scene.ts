@@ -14,6 +14,9 @@ export default class Level2 extends Phaser.Scene {
     private maxCopies = 2;
     private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
 
+    private copiesLeft = 2;
+    private copiesText?: Phaser.GameObjects.Text
+
     constructor() {
         super({ key: 'Level2' });
         console.log("in main - constructor");
@@ -26,6 +29,7 @@ export default class Level2 extends Phaser.Scene {
             this.scene.start("Level2");
             this.numCopies = 0;
             this.shallowCopies = []
+            this.copiesLeft = 2;
         }));
 
         this.platforms = this.physics.add.staticGroup();
@@ -34,7 +38,7 @@ export default class Level2 extends Phaser.Scene {
 
         this.buttons = this.physics.add.staticGroup();
 
-        const block2 = this.platforms.create(700, 520, 'star') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(600, 450, 'star') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
             .refreshBody()
@@ -58,6 +62,10 @@ export default class Level2 extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys()
 
         this.scoreText = this.add.text(16, 16, 'score: 0', {
+            fontSize: '32px',
+        })
+
+        this.copiesText = this.add.text(16, 48, 'copies: 2', {
             fontSize: '32px',
         })
 
@@ -99,6 +107,8 @@ export default class Level2 extends Phaser.Scene {
             .setScale(2)
             .refreshBody()
             .setInteractive()
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
@@ -117,6 +127,9 @@ export default class Level2 extends Phaser.Scene {
         this.input.on('pointerdown', (_pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(deepCopy, true);
         })
+        
+        this.copiesLeft -= 1
+        this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
 
