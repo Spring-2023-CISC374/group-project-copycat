@@ -99,15 +99,6 @@ export default class Level2 extends Phaser.Scene {
             .setScale(2)
             .refreshBody()
             .setInteractive()
-        this.input.on('pointerdown', (_pointer: Phaser.Input.Pointer) => {
-            this.input.setDraggable(shallowCopy, true);
-        })
-        shallowCopy
-            .setInteractive({ draggable: true })
-            .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
-                shallowCopy.setPosition(dragX, dragY);
-                shallowCopy.body.updateFromGameObject();
-            });
     }
 
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
