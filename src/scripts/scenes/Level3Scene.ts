@@ -9,8 +9,9 @@ export default class Level3 extends Phaser.Scene {
     private score = 0
     private scoreText?: Phaser.GameObjects.Text
     private house?: Phaser.Physics.Arcade.StaticGroup
+    private river?: Phaser.Physics.Arcade.StaticGroup
     private buttons?: Phaser.Physics.Arcade.StaticGroup
-    
+
     private numCopies = 0;
     private maxCopies = 1;
     private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
@@ -33,7 +34,7 @@ export default class Level3 extends Phaser.Scene {
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level3");
             this.numCopies = 0;
-            this.shallowCopies =[]
+            this.shallowCopies = []
             this.copiesLeft = 1;
         }));
 
@@ -44,6 +45,8 @@ export default class Level3 extends Phaser.Scene {
             .refreshBody()
 
         this.house = this.physics.add.staticGroup();
+
+        this.river = this.physics.add.staticGroup();
 
         this.buttons = this.physics.add.staticGroup();
 
@@ -59,6 +62,8 @@ export default class Level3 extends Phaser.Scene {
             block2.body.updateFromGameObject();
         });
 
+        const river = this.river.create(650, 600, 'water') as Phaser.Physics.Arcade.Sprite
+
         const house = this.house.create(730, 320, 'house3') as Phaser.Physics.Arcade.Sprite
         house
             .refreshBody()
@@ -70,6 +75,7 @@ export default class Level3 extends Phaser.Scene {
 
 
         this.physics.add.collider(this.player, this.platforms)
+        this.physics.add.collider(this.player, this.river, this.handleRiver, undefined, this)
 
         this.physics.add.collider(this.player, this.house, this.reachHome, undefined, this)
 
@@ -83,6 +89,13 @@ export default class Level3 extends Phaser.Scene {
             fontSize: '32px',
         })
 
+    }
+
+    private handleRiver() {
+        this.player?.setCollideWorldBounds(false);
+        this.add.existing(new ImageButtonObject(this, 400, 300, "reset-btn", () => {
+            this.scene.start("StartScreen");
+        }));
     }
 
     private reachHome() {
