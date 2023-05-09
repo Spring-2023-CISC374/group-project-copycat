@@ -39,6 +39,10 @@ export default class Level3 extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
 
+        const ground = this.platforms.create(850, 390, 'ground') as Phaser.Physics.Arcade.Sprite
+        ground
+            .refreshBody()
+
         this.house = this.physics.add.staticGroup();
 
         this.buttons = this.physics.add.staticGroup();

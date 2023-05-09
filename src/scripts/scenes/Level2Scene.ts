@@ -38,6 +38,10 @@ export default class Level2 extends Phaser.Scene {
 
         this.buttons = this.physics.add.staticGroup();
 
+        const ground = this.platforms.create(820, 420, 'ground') as Phaser.Physics.Arcade.Sprite
+        ground
+            .refreshBody()
+
         const block2 = this.platforms.create(600, 450, 'star') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
