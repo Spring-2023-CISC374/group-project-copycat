@@ -27,6 +27,19 @@ export default class MainMenu extends Phaser.Scene {
 
         this.add.image(400, 300, 'scene1');
 
+        this.add.image(50,150, 'help');
+
+        const rules = this.add.image(400, 300, 'rulesL1').setScale(10);
+        rules.visible = false;
+        rules.depth = 1;
+
+        this.add.existing(new ImageButtonObject(this, 50, 150, "help", () => {
+            rules.visible = !rules.visible;
+        }));
+
+        // this.add.existing(new ImageButtonObject(this, 50, 150, 'help', () => { 
+        // }));
+
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level1");
             this.numCopies = 0;
