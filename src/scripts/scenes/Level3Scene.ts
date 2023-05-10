@@ -72,6 +72,7 @@ export default class Level3 extends Phaser.Scene {
         });
 
         const river = this.river.create(650, 600, 'water') as Phaser.Physics.Arcade.Sprite
+        river
 
         const house = this.house.create(730, 320, 'house3') as Phaser.Physics.Arcade.Sprite
         house
