@@ -137,7 +137,7 @@ export default class Level3 extends Phaser.Scene {
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
         this.buttons?.setVisible(false)
-        const shallowCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
+        const shallowCopy = this.platforms?.create((platform.x - 100) - (50 * this.numCopies), platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
         this.numCopies++;
         if (this.numCopies == 1) {
             this.shallowCopies.push(platform)
@@ -153,6 +153,8 @@ export default class Level3 extends Phaser.Scene {
             .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
+                platform.setPosition(dragX + 100, dragY);
+                platform.body.updateFromGameObject();
             });
 
         this.copiesLeft -= 1
