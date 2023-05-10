@@ -32,15 +32,13 @@ export default class Level3 extends Phaser.Scene {
 
         this.add.image(400, 300, 'scene3')
 
-        this.add.image(50,150, 'help');
-
-        const rules = this.add.image(400, 300, 'rulesL3').setScale(10);
+        const rules = this.add.image(400, 300, 'rulesL3').setScale(1);
         rules.visible = false;
         rules.depth = 1;
 
-        this.add.existing(new ImageButtonObject(this, 50, 150, "help", () => {
+        this.add.existing(new ImageButtonObject(this, 100, 150, "help", () => {
             rules.visible = !rules.visible;
-        }));
+        })).setScale(0.25);
 
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level3");

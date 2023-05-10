@@ -32,6 +32,10 @@ export default class PreLoadScene extends Phaser.Scene {
 
             frameWidth: 32, frameHeight: 48
         })
+        this.load.image('help', 'assets/help_txt.png')
+        this.load.image('rulesL1', 'assets/rules_lvl1.png')
+        this.load.image('rulesL2', 'assets/rules_lvl2.png')
+        this.load.image('rulesL3', 'assets/rules_lvl3.png')
     }
   
     create() {
