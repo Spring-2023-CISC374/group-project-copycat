@@ -1,6 +1,7 @@
 import { Physics } from "phaser"
 import ImageButtonObject from "../objects/ImageButtonObject"
 
+
 export default class Level3 extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup
     private player?: Phaser.Physics.Arcade.Sprite
