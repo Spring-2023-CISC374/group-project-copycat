@@ -1,5 +1,6 @@
 import ImageButtonObject from "../objects/ImageButtonObject";
 
+//displays instructions for users
 export default class Instructions extends Phaser.Scene {
     constructor() {
         super({ key: 'Instructions' });

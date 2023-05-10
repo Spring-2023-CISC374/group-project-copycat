@@ -7,7 +7,7 @@ export default class StartScreen extends Phaser.Scene {
         console.log("in main - constructor");
     }
 
-    
+    //displays level and instructions button
     create() {
         this.add.image(400, 300, 'main');
 

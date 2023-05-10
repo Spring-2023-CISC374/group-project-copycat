@@ -25,6 +25,7 @@ export default class MainMenu extends Phaser.Scene {
 
     create() {
 
+        //adds scene images, help button, and setup for display (ie. barn and object)
         this.add.image(400, 300, 'scene1');
 
         const rules = this.add.image(400, 300, 'rulesL1').setScale(1);
@@ -35,8 +36,6 @@ export default class MainMenu extends Phaser.Scene {
             rules.visible = !rules.visible;
         })).setScale(0.25);
 
-        // this.add.existing(new ImageButtonObject(this, 50, 150, 'help', () => { 
-        // }));
 
         this.add.existing(new ImageButtonObject(this, 780, 30, "reset-btn", () => {
             this.scene.start("Level1");
@@ -55,6 +54,7 @@ export default class MainMenu extends Phaser.Scene {
         ground
             .refreshBody()
 
+        //creates object to be copied: can drag and make copies of it
         const block2 = this.platforms.create(550, 430, 'hay') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
@@ -92,7 +92,8 @@ export default class MainMenu extends Phaser.Scene {
 
 
     }
-
+    
+    //player earns points for completing the level and if they have leftover copies - prompts new level to appear
     private reachHome() {
         this.score += 10
         if (this.maxCopies > 0) {
@@ -103,6 +104,7 @@ export default class MainMenu extends Phaser.Scene {
         this.scene.start("Level2");
     }
 
+    //allows user to choose what copies they make (if they have copies left)
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
         if (this.numCopies < this.maxCopies) {
             const deep = this.buttons?.create(300, 500, 'deep') as Phaser.Physics.Arcade.Sprite
@@ -117,6 +119,7 @@ export default class MainMenu extends Phaser.Scene {
         }
     }
 
+    //makes a shallow copy where users can resize hay bale and it will effect original
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         var rescale = 2;
         console.log("shallow")
@@ -158,7 +161,7 @@ export default class MainMenu extends Phaser.Scene {
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
-
+    //allows user to make a deep copy of object that can be resized but will not change original
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         this.numCopies++;
         console.log("deep")
@@ -200,6 +203,7 @@ export default class MainMenu extends Phaser.Scene {
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
+    //player controls
     update() {
         if (!this.cursors) {
             return
