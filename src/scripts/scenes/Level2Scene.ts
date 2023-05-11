@@ -23,6 +23,7 @@ export default class Level2 extends Phaser.Scene {
     }
 
     create() {
+        //adds scene images, help button, and setup for display (ie. house and object)
         this.add.image(400, 300, 'scene2')
 
         const rules = this.add.image(400, 300, 'rulesL2').setScale(1);
@@ -82,7 +83,7 @@ export default class Level2 extends Phaser.Scene {
         })
 
     }
-
+    //player earns points for completing the level and if they have leftover copies- prompts new level to appear
     private reachHome() {
         this.score += 10;
         if (this.maxCopies > 0) {
@@ -92,6 +93,7 @@ export default class Level2 extends Phaser.Scene {
         this.scene.start("Level3");
     }
 
+    //allows user to choose what copies they make (if they have copies left)
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
         if (this.numCopies < this.maxCopies) {
             const deep = this.buttons?.create(300, 500, 'deep') as Phaser.Physics.Arcade.Sprite
@@ -106,6 +108,7 @@ export default class Level2 extends Phaser.Scene {
         }
     }
 
+    //allows user to make shallow copy of the star- this copy will not be able to move like the original
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
         this.buttons?.setVisible(false)
@@ -123,6 +126,7 @@ export default class Level2 extends Phaser.Scene {
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
+    //allows user to make deep copy of star, has ability to move
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         this.numCopies++;
         console.log("deep")
@@ -144,7 +148,7 @@ export default class Level2 extends Phaser.Scene {
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
-
+    //player controls
     update() {
         if (!this.cursors) {
             return
