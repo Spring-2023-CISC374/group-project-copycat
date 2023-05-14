@@ -15,7 +15,10 @@ export default class Level3 extends Phaser.Scene {
 
     private numCopies = 0;
     private maxCopies = 1;
-    private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[];
+    private endText?: Phaser.GameObjects.Text
+    private endText2?: Phaser.GameObjects.Text
+    private shallowCopies = [] as Phaser.Physics.Arcade.Sprite[]
+    private shallowCopy: Phaser.Physics.Arcade.Sprite | undefined;
     //private music?: Phaser.Sound.BaseSound
 
     private copiesLeft = 1;
@@ -49,15 +52,23 @@ export default class Level3 extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
 
+        /*
         const ground = this.platforms.create(850, 390, 'ground') as Phaser.Physics.Arcade.Sprite
         ground
             .refreshBody()
-
+*/
         this.house = this.physics.add.staticGroup();
 
         this.river = this.physics.add.staticGroup();
 
         this.buttons = this.physics.add.staticGroup();
+
+        //this is solely to avoid phaser warnings
+        this.endText = this.add.text(0,0, '');
+        this.endText
+        this.endText2 = this.add.text(0,0, '');
+        this.endText2
+
 
         const block2 = this.platforms.create(700, 520, 'lily') as Phaser.Physics.Arcade.Sprite
         block2
@@ -103,6 +114,8 @@ export default class Level3 extends Phaser.Scene {
 
     private handleRiver() {
         this.player?.setCollideWorldBounds(false);
+        this.numCopies = 0
+        this.copiesLeft = 1
         this.add.existing(new ImageButtonObject(this, 400, 300, "reset-btn", () => {
             this.scene.start("StartScreen");
         }));
@@ -115,10 +128,16 @@ export default class Level3 extends Phaser.Scene {
             this.maxCopies = 0;
         }
         this.scoreText?.setText(`Score: ${this.score}`)
+        this.endText = this.add.text(200, 210,'You got the cat home!', {
+            fontSize: '32px'
+        })
+        this.endText2 = this.add.text(200, 180,'Try again to beat your score!', {
+            fontSize: '32px'
+        })
         this.physics.pause()
         this.add.existing(new ImageButtonObject(this, 400, 300, "reset-btn", () => {
             this.scene.start("StartScreen");
-        }));
+        }))
     }
 
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
@@ -157,7 +176,7 @@ export default class Level3 extends Phaser.Scene {
                 platform.setPosition(dragX + 100, dragY);
                 platform.body.updateFromGameObject();
             });
-
+        this.shallowCopy = shallowCopy;
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
