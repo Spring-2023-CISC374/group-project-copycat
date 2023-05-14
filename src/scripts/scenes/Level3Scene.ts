@@ -77,9 +77,13 @@ export default class Level3 extends Phaser.Scene {
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))
         this.input.setDraggable(block2, true);
-        block2.on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
+        block2.on('drag',  (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
             block2.setPosition(dragX, dragY);
             block2.body.updateFromGameObject();
+            if (this.shallowCopy) {
+                this.shallowCopy.setPosition(dragX - 100, dragY);
+                this.shallowCopy.body.updateFromGameObject();
+            }
         });
 
         const river = this.river.create(650, 600, 'water') as Phaser.Physics.Arcade.Sprite
