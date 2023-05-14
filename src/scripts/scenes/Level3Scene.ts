@@ -32,7 +32,7 @@ export default class Level3 extends Phaser.Scene {
 
 
     create() {
-
+        //scene setup- background, objects, help button, rules, etc
         this.add.image(400, 300, 'scene3')
 
         const rules = this.add.image(400, 300, 'rulesL3').setScale(1);
@@ -52,11 +52,6 @@ export default class Level3 extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
 
-        /*
-        const ground = this.platforms.create(850, 390, 'ground') as Phaser.Physics.Arcade.Sprite
-        ground
-            .refreshBody()
-*/
         this.house = this.physics.add.staticGroup();
 
         this.river = this.physics.add.staticGroup();
@@ -69,7 +64,7 @@ export default class Level3 extends Phaser.Scene {
         this.endText2 = this.add.text(0,0, '');
         this.endText2
 
-
+        //creates original lilypad platform (& will move shallow copy if there is one)
         const block2 = this.platforms.create(700, 520, 'lily') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
@@ -116,6 +111,7 @@ export default class Level3 extends Phaser.Scene {
 
     }
 
+    //if player hits river, they have failed the level, game resets
     private handleRiver() {
         this.player?.setCollideWorldBounds(false);
         this.numCopies = 0
@@ -125,6 +121,7 @@ export default class Level3 extends Phaser.Scene {
         }));
     }
 
+    //if player reaches the house, they win the game
     private reachHome() {
         this.score += 10;
         if (this.maxCopies > 0) {
@@ -144,6 +141,7 @@ export default class Level3 extends Phaser.Scene {
         }))
     }
 
+    //ability to make copies
     private platformClick(platform: Phaser.Physics.Arcade.Sprite) {
         if (this.numCopies < this.maxCopies) {
             const deep = this.buttons?.create(300, 500, 'deep') as Phaser.Physics.Arcade.Sprite
@@ -158,6 +156,7 @@ export default class Level3 extends Phaser.Scene {
         }
     }
 
+    //ability to make shallow copy; a shallow copy created will move when a deep copy moves
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
         this.buttons?.setVisible(false)
@@ -185,6 +184,7 @@ export default class Level3 extends Phaser.Scene {
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
+    //allows user to make deep copy of lilypad, has ability to move freely of original
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         this.numCopies++;
         console.log("deep")
