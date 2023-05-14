@@ -65,7 +65,7 @@ export default class Level3 extends Phaser.Scene {
         this.endText2
 
         //creates original lilypad platform (& will move shallow copy if there is one)
-        const block2 = this.platforms.create(700, 520, 'lily') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(600, 520, 'lily') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(2)
             .refreshBody()
