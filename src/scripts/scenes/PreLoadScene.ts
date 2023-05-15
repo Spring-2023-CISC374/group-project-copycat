@@ -19,6 +19,7 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.image('main','assets/copy-cat.png' )
         this.load.image('instructions','assets/instructions.png' )
         this.load.image('lily', 'assets/pad-resize.png')
+        this.load.image('lily-glow', 'assets/pad-glow.png')
         this.load.image('deep', 'assets/deepcopy-button.png')
         this.load.image('shallow', 'assets/shallowcopy-button.png')
         this.load.image('ground', 'assets/platform.png')
