@@ -55,9 +55,9 @@ export default class MainMenu extends Phaser.Scene {
             .refreshBody()
 
         //creates object to be copied: can drag and make copies of it
-        const block2 = this.platforms.create(550, 430, 'hay') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(550, 430, 'hay-glow') as Phaser.Physics.Arcade.Sprite
         block2
-            .setScale(2)
+            .setScale(1.6)
             .refreshBody()
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))

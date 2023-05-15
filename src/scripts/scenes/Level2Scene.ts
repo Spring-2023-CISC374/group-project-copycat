@@ -51,9 +51,9 @@ export default class Level2 extends Phaser.Scene {
         ground
             .refreshBody()
 
-        const block2 = this.platforms.create(600, 450, 'star') as Phaser.Physics.Arcade.Sprite
+        const block2 = this.platforms.create(600, 450, 'star-glow') as Phaser.Physics.Arcade.Sprite
         block2
-            .setScale(2)
+            .setScale(1.4)
             .refreshBody()
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))
