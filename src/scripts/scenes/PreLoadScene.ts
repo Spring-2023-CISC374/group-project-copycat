@@ -9,6 +9,7 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.image('scene1', 'assets/scene1-resize.jpeg')
         this.load.image('scene2', 'assets/scene2-resize.png')
         this.load.image('star', 'assets/star.png')
+        this.load.image('star-glow', 'assets/star-glow.png')
         this.load.image('scene3', 'assets/scene3-resize.png')
         this.load.image('house2', 'assets/house2-resize.png')
         this.load.image('barn', 'assets/barn-resize.png')
