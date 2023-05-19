@@ -61,6 +61,7 @@ export default class MainMenu extends Phaser.Scene {
             .refreshBody()
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))
+        //Makes original block dragable
         this.input.setDraggable(block2, true);
         block2.on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
             block2.setPosition(dragX, dragY);
@@ -113,6 +114,7 @@ export default class MainMenu extends Phaser.Scene {
             const shallow = this.buttons?.create(500, 500, 'shallow') as Phaser.Physics.Arcade.Sprite
             shallow.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.shallowCopyBtn(platform))
+            //Cancel button hides visibility when clicked
             const cancel = this.buttons?.create(400, 560, 'cancel') as Phaser.Physics.Arcade.Sprite
             cancel.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.buttons?.setVisible(false))
@@ -123,17 +125,19 @@ export default class MainMenu extends Phaser.Scene {
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         var rescale = 2;
         console.log("shallow")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false) //Hides buttons
         const shallowCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'hay') as Phaser.Physics.Arcade.Sprite
-        this.numCopies++;
+        this.numCopies++;//Increases number of copies used
+        //If this is the first shallow copy, add the original platform to shallow copies array
         if (this.numCopies == 1) {
             this.shallowCopies.push(platform)
         }
-        this.shallowCopies.push(shallowCopy)
+        this.shallowCopies.push(shallowCopy)    //Add shallow copy to array
         shallowCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
+        //Resize when right clicked    
         this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(shallowCopy, true);
             if (pointer.rightButtonDown()) {
@@ -151,12 +155,14 @@ export default class MainMenu extends Phaser.Scene {
                 }
             }
         })
+        //Sets draggability
         shallowCopy
             .setInteractive({ draggable: true })
             .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
                 shallowCopy.setPosition(dragX, dragY);
                 shallowCopy.body.updateFromGameObject();
             });
+        //Updates number of copies left and the on screen text
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
@@ -165,17 +171,19 @@ export default class MainMenu extends Phaser.Scene {
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         this.numCopies++;
         console.log("deep")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false) //Hides buttons
         var rescale = 2
         const deepCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'hay') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
+            //Sets draggability
             .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
                 deepCopy.setPosition(dragX, dragY);
                 deepCopy.body.updateFromGameObject();
             });
+        //Sets rescale
         this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(deepCopy, true);
             if (pointer.rightButtonDown()) {
@@ -199,6 +207,7 @@ export default class MainMenu extends Phaser.Scene {
                 }
             }
         })
+        //Updates number of copies left and the on screen text
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
