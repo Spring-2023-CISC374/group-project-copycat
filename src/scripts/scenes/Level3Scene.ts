@@ -71,16 +71,19 @@ export default class Level3 extends Phaser.Scene {
             .refreshBody()
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.platformClick(block2))
+        //Makes original block dragable
         this.input.setDraggable(block2, true);
         block2.on('drag',  (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
             block2.setPosition(dragX, dragY);
             block2.body.updateFromGameObject();
+            //If there is a shallow copy, move original and copy together
             if (this.shallowCopy) {
                 this.shallowCopy.setPosition(dragX - 100, dragY);
                 this.shallowCopy.body.updateFromGameObject();
             }
         });
 
+        //Creates river boundry
         const river = this.river.create(650, 600, 'water') as Phaser.Physics.Arcade.Sprite
         river
 
@@ -150,6 +153,7 @@ export default class Level3 extends Phaser.Scene {
             const shallow = this.buttons?.create(500, 500, 'shallow') as Phaser.Physics.Arcade.Sprite
             shallow.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.shallowCopyBtn(platform))
+            //Cancel button hides visibility when clicked
             const cancel = this.buttons?.create(400, 560, 'cancel') as Phaser.Physics.Arcade.Sprite
             cancel.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.buttons?.setVisible(false))
@@ -159,18 +163,20 @@ export default class Level3 extends Phaser.Scene {
     //ability to make shallow copy; a shallow copy created will move when a deep copy moves
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false) //Hides buttons
         const shallowCopy = this.platforms?.create((platform.x - 100) - (50 * this.numCopies), platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
-        this.numCopies++;
+        this.numCopies++;  //Increases number of copies used
+        //If this is the first shallow copy, add the original platform to shallow copies array
         if (this.numCopies == 1) {
             this.shallowCopies.push(platform)
         }
-        this.shallowCopies.push(shallowCopy)
+        this.shallowCopies.push(shallowCopy)    //Add shallow copy to array
         shallowCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
         this.input.setDraggable(shallowCopy, true);
+        //Sets draggability
         shallowCopy
             .setInteractive({ draggable: true })
             .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
@@ -179,6 +185,7 @@ export default class Level3 extends Phaser.Scene {
                 platform.setPosition(dragX + 100, dragY);
                 platform.body.updateFromGameObject();
             });
+        //Updates number of copies left and the on screen text
         this.shallowCopy = shallowCopy;
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
@@ -188,19 +195,21 @@ export default class Level3 extends Phaser.Scene {
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
         this.numCopies++;
         console.log("deep")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false) //Hides buttons
         const deepCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'lily') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
         this.input.setDraggable(deepCopy, true);
+        //Sets draggability
         deepCopy
             .setInteractive({ draggable: true })
             .on('drag', function (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) {
                 deepCopy.setPosition(dragX, dragY);
                 deepCopy.body.updateFromGameObject();
             });
+        //Updates number of copies left and the on screen text
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }

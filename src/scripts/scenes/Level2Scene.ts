@@ -51,6 +51,7 @@ export default class Level2 extends Phaser.Scene {
         ground
             .refreshBody()
 
+        //Creates original star platform
         const block2 = this.platforms.create(600, 450, 'star-glow') as Phaser.Physics.Arcade.Sprite
         block2
             .setScale(1.4)
@@ -102,6 +103,7 @@ export default class Level2 extends Phaser.Scene {
             const shallow = this.buttons?.create(500, 500, 'shallow') as Phaser.Physics.Arcade.Sprite
             shallow.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.shallowCopyBtn(platform))
+            //Cancel button hides visibility when clicked    
             const cancel = this.buttons?.create(400, 560, 'cancel') as Phaser.Physics.Arcade.Sprite
             cancel.setInteractive({ useHandCursor: true })
                 .on('pointerdown', () => this.buttons?.setVisible(false))
@@ -111,26 +113,28 @@ export default class Level2 extends Phaser.Scene {
     //allows user to make shallow copy of the star- this copy will not be able to move like the original
     private shallowCopyBtn(platform: Physics.Arcade.Sprite) {
         console.log("shallow")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false)     //Hides buttons 
         const shallowCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'star') as Phaser.Physics.Arcade.Sprite
-        this.numCopies++;
+        this.numCopies++;   //Increases number of copies used
+        //If this is the first shallow copy, add the original platform to shallow copies array
         if (this.numCopies == 1) {
             this.shallowCopies.push(platform)
         }
-        this.shallowCopies.push(shallowCopy)
+        this.shallowCopies.push(shallowCopy)    //Add shallow copy to array
         shallowCopy
             .setScale(2)
             .refreshBody()
             .setInteractive()
+        //Updates number of copies left and the on screen text    
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
 
     //allows user to make deep copy of star, has ability to move
     private deepCopyBtn(platform: Physics.Arcade.Sprite) {
-        this.numCopies++;
+        this.numCopies++;       //Increases number of copies used
         console.log("deep")
-        this.buttons?.setVisible(false)
+        this.buttons?.setVisible(false)     //Hides buttons
         const deepCopy = this.platforms?.create((platform.x - 50) - (50 * this.numCopies), platform.y, 'star') as Phaser.Physics.Arcade.Sprite
         deepCopy
             .setScale(2)
@@ -140,10 +144,11 @@ export default class Level2 extends Phaser.Scene {
                 deepCopy.setPosition(dragX, dragY);
                 deepCopy.body.updateFromGameObject();
             });
+        //Sets draggability
         this.input.on('pointerdown', (_pointer: Phaser.Input.Pointer) => {
             this.input.setDraggable(deepCopy, true);
         })
-        
+        //Updates number of copies left and the on screen text
         this.copiesLeft -= 1
         this.copiesText?.setText(`copies: ${this.copiesLeft}`)
     }
